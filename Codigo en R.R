@@ -23,7 +23,8 @@ datos %>%
 datos %>% 
   filter(is.na(total) == FALSE) %>% 
   group_by(BARRIO) %>% 
-  summarise(Media = mean(total))
+  summarise(Media = mean(total)) %>% 
+  View()
 
 datos %>% 
   filter(is.na(total) == FALSE) %>% 
@@ -74,7 +75,7 @@ datos %>%
 datos %>% 
   filter(BARRIO=="RETIRO") %>% 
   filter(RUBRO=="MAL ESTACIONAMIENTO") %>% 
-  filter(PERIODO>20146) %>% 
+  filter(PERIODO>201406) %>% 
   select(total) %>% 
   as.matrix() %>% 
   hist(col="firebrick1")
