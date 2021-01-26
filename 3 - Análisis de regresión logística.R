@@ -1,0 +1,25 @@
+datos = read.table("maestria.txt", header = TRUE)
+
+modelo_lineal = lm(Interes~Edad, data = datos)
+predict(modelo_lineal, data.frame(Edad=c(25,35,45,55)))
+
+datos$Interes = as.factor(datos$Interes)
+modelo_logistico = glm(Interes~Edad, data = datos, family = "binomial")
+summary(modelo_logistico)
+
+modelo_nulo = glm(Interes~1, data = datos, family = "binomial")
+library(lmtest)
+TestRV = lrtest(modelo_nulo,modelo_logistico)
+TestRV
+
+anova(modelo_logistico, test = "Chisq") # Equivalente solo para regresión logística simple
+
+TestRV$LogLik
+1-TestRV$LogLik[2]/TestRV$LogLik[1]
+
+predicciones = predict(modelo_logistico, type=c("response"))
+comparacion  = data.frame(OBS  = datos$Interes,
+                          PRED = as.factor(round(predicciones,0)))
+
+library(caret)
+confusionMatrix(comparacion$PRED, comparacion$OBS, positive = "1")
