@@ -23,3 +23,14 @@ comparacion  = data.frame(OBS  = datos$Interes,
 
 library(caret)
 confusionMatrix(comparacion$PRED, comparacion$OBS, positive = "1")
+
+rocobj = roc( datos$Interes, predicciones, auc = TRUE, ci = TRUE  )
+plot(rocobj)
+plot.roc(rocobj, 
+         legacy.axes = TRUE, 
+         print.thres = "best",
+         print.auc   = TRUE,
+         auc.polygon = FALSE,
+         max.auc.polygon = FALSE, 
+         col  = "darkblue", 
+         grid = TRUE )
