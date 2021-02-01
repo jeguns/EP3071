@@ -6,6 +6,7 @@ predict(modelo_lineal, data.frame(Edad=c(25,35,45,55)))
 datos$Interes = as.factor(datos$Interes)
 modelo_logistico = glm(Interes~Edad, data = datos, family = "binomial")
 summary(modelo_logistico)
+coef(modelo_logistico)
 
 modelo_nulo = glm(Interes~1, data = datos, family = "binomial")
 library(lmtest)
@@ -23,7 +24,7 @@ comparacion  = data.frame(OBS  = datos$Interes,
 
 library(caret)
 confusionMatrix(comparacion$PRED, comparacion$OBS, positive = "1")
-
+library(pROC)
 rocobj = roc( datos$Interes, predicciones, auc = TRUE, ci = TRUE  )
 plot(rocobj)
 plot.roc(rocobj, 
