@@ -22,44 +22,51 @@ plot(tipo,incumplimiento,ylab="incumplimiento",xlab="tipo de tarjeta")
 library(DataExplorer)
 plot_correlation(datos, maxcat = 5L)
 
-modelo_logistico = glm(incumplimiento~sueldo+numeroi+minimo+tipo, family = "binomial")
-summary(modelo_logistico)
+
+# Primera propuesta
+
+modelo_logistico1 = glm(incumplimiento~sueldo+numeroi+minimo+tipo, family = "binomial")
+summary(modelo_logistico1)
 
 modelo_nulo = glm(incumplimiento~1, family = "binomial")
 library(lmtest)
-TestRV = lrtest(modelo_nulo,modelo_logistico)
+TestRV = lrtest(modelo_nulo,modelo_logistico1)
 TestRV
 
-modelo_sintipo = glm(incumplimiento~sueldo+numeroi+minimo, family = "binomial")
-TestRV = lrtest(modelo_sintipo,modelo_logistico)
+# Segunda propuesta
+
+modelo_logistico2 = glm(incumplimiento~sueldo+numeroi+minimo, family = "binomial")
+summary(modelo_logistico2)
+
+TestRV = lrtest(modelo_logistico2,modelo_logistico1)
 TestRV
 
-modelo_logistico = modelo_sintipo
-summary(modelo_logistico)
-
-modelo_nulo = glm(incumplimiento~1, family = "binomial")
-TestRV = lrtest(modelo_nulo,modelo_logistico)
+TestRV = lrtest(modelo_nulo,modelo_logistico2)
 TestRV
 
-exp(coef(modelo_logistico))
-modelo_logistico %>% coef() %>% exp()
+# Interpretación de coeficientes
 
+exp(coef(modelo_logistico2))
+modelo_logistico2 %>% coef() %>% exp()
+
+# Pseudo R²
 TestRV$LogLik
 1-TestRV$LogLik[2]/TestRV$LogLik[1]
 
-predicciones = predict(modelo_logistico, type=c("response"))
+# Predicciones
+predicciones = predict(modelo_logistico2, type=c("response"))
 comparacion  = data.frame(OBS  = incumplimiento,
-                          PRED = as.factor(round(predicciones,2))) %>% arrange(PRED)
+                          PRED = as.factor(round(predicciones,0))) 
 comparacion
 
 
 library(caret)
 confusionMatrix(comparacion$PRED, comparacion$OBS, positive = "1")
 
+
 rocobj = roc(incumplimiento, predicciones, auc = TRUE, ci = TRUE  )
 plot(rocobj)
 plot.roc(rocobj, 
-         legacy.axes = TRUE, 
          print.thres = "best",
          print.auc   = TRUE,
          auc.polygon = FALSE,
