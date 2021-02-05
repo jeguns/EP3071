@@ -19,8 +19,6 @@ table(incumplimiento,tipo)
 table(incumplimiento,tipo) %>% prop.table(margin=2)
 plot(tipo,incumplimiento,ylab="incumplimiento",xlab="tipo de tarjeta")
 
-
-
 library(DataExplorer)
 plot_correlation(datos, maxcat = 5L)
 

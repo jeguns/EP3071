@@ -39,10 +39,10 @@ comparacion  = data.frame(OBS  = datos$Interes,
 library(caret)
 confusionMatrix(comparacion$OBS,comparacion$PRED,  positive = "1")
 library(pROC)
-rocobj = roc( datos$Interes, predicciones, auc = TRUE, ci = TRUE  )
+rocobj = roc(comparacion$OBS, predicciones, auc = TRUE, ci = TRUE  )
 plot(rocobj)
 plot.roc(rocobj, 
-         legacy.axes = TRUE, 
+         legacy.axes = FALSE, 
          print.thres = "best",
          print.auc   = TRUE,
          auc.polygon = FALSE,
