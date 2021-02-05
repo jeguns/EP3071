@@ -37,15 +37,18 @@ comparacion  = data.frame(OBS  = datos$Interes,
                           PRED = as.factor(round(predicciones,0)))
 
 library(caret)
-confusionMatrix(comparacion$OBS,comparacion$PRED,  positive = "1")
+confusionMatrix(comparacion$OBS, comparacion$PRED,  positive = "1")
 library(pROC)
-rocobj = roc(comparacion$OBS, predicciones, auc = TRUE, ci = TRUE  )
+rocobj = roc(comparacion$OBS, predicciones, ci = TRUE  )
 plot(rocobj)
-plot.roc(rocobj, 
+plot.roc(rocobj,
          legacy.axes = FALSE, 
-         print.thres = "best",
+         print.thres = "all",
          print.auc   = TRUE,
          auc.polygon = FALSE,
          max.auc.polygon = FALSE, 
          col  = "darkblue", 
          grid = TRUE )
+
+data.frame(datos$Interes, predicciones, predicciones>0.098)
+table(datos$Interes, predicciones>0.098)
