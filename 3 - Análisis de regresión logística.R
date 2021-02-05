@@ -43,7 +43,7 @@ rocobj = roc(comparacion$OBS, predicciones, ci = TRUE  )
 plot(rocobj)
 plot.roc(rocobj,
          legacy.axes = FALSE, 
-         print.thres = "all",
+         print.thres = "best",
          print.auc   = TRUE,
          auc.polygon = FALSE,
          max.auc.polygon = FALSE, 
