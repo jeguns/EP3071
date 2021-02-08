@@ -42,13 +42,13 @@ library(pROC)
 rocobj = roc(comparacion$OBS, predicciones, ci = TRUE  )
 plot(rocobj)
 plot.roc(rocobj,
-         legacy.axes = FALSE, 
+         legacy.axes = F, 
          print.thres = "best",
          print.auc   = TRUE,
-         auc.polygon = FALSE,
-         max.auc.polygon = FALSE, 
-         col  = "darkblue", 
-         grid = TRUE )
+         auc.polygon = F,
+         max.auc.polygon = F, 
+         col  = "blue", 
+         grid = T )
 
-data.frame(datos$Interes, predicciones, predicciones>0.098)
+data.frame(datos$Interes, predicciones, predicciones>=0.098)
 table(datos$Interes, predicciones>0.098)
