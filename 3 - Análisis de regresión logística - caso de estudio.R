@@ -49,6 +49,30 @@ TestRV
 exp(coef(modelo_logistico2))
 modelo_logistico2 %>% coef() %>% exp()
 
+# el intercepto va a tener interpretación cuando todas las X puedan tomar valor cero.
+# X1 = Sueldo ← para el contexto no podría tomar el valor de 0
+# X2 = Numero de incumplimientos ← sí podría ser 0
+# X3 = Pago minimo ← si podría ser 0
+# Si pudiésemos interpretarlo
+# e^beta0 = pi/(-pi)
+# 0.2121 = pi/(1-pi) → pi = 0.17 sería la probabilidad de incumplimiento cuando x1=0,x2=0,x3=0
+
+# por cada S/ 1000 adicionales de sueldo, la chance de incumplir el pago mensual respecto
+# a cumplirlo disminuye en 60.95%, manteniendo el número de incumplimientos y su situación respecto
+# al pago mínimo constantes
+
+# por cada incumplimiento de pago adicional en el último año, la chance de incumplir el pago mensual
+# aumenta en 140.78% respecto a cumplirlo, manteniendo el suelo y su situación respecto
+# al pago mínimo constantes
+
+# La chance de incumplimiento (respecto a la de cumplimiento) cuando se realiza el pago mínimo
+# (cuando x3=1) es 52.5 veces que cuando no realiza el pago mínimo (cuando x3=0)
+
+# En resumen, los factores que incrementan el incumplimiento son:
+# - número de incumplimentos en el último año  
+# - realizar un pago mínimo
+# Mientras que el sueldo es un factor que disminuye el incumplimiento
+
 # Pseudo R²
 TestRV$LogLik
 1-TestRV$LogLik[2]/TestRV$LogLik[1]
@@ -59,10 +83,8 @@ comparacion  = data.frame(OBS  = incumplimiento,
                           PRED = as.factor(round(predicciones,0))) 
 comparacion
 
-
 library(caret)
 confusionMatrix(comparacion$PRED, comparacion$OBS, positive = "1")
-
 
 rocobj = roc(incumplimiento, predicciones, auc = TRUE, ci = TRUE  )
 plot(rocobj)
