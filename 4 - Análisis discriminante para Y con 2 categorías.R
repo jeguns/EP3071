@@ -21,16 +21,13 @@ ad.test(Edad)
 shapiro.test(Hijos18)
 ad.test(Hijos18)
 
-shapiro.test(Hijos18)
-ad.test(Hijos18)
-
 library(MVN)
 mvn(datos_empleo[,-1], mvnTest = "royston")
 mvn(datos_empleo[,-1], mvnTest = "mardia")
 
 library(dplyr)
 
-datos_empleo %>% 
+datos_empleo %>% # PIPE 
   filter(Situacion=="0") %>% 
   select(Edad,Hijos18) %>% 
   cov()
@@ -94,7 +91,6 @@ predict(modelo_disc, data.frame(Edad=50,Hijos18=3))
 predict(modelo_disc, X)
 
 # Comparando con un modelo de regresión logística
-
 
 modelo_logistico   = glm(Situacion ~ Edad + Hijos18, data = datos_empleo, family = binomial)
 predicciones_logis = predict(modelo_logistico, type=c("response"))
