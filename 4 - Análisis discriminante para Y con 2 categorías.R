@@ -49,11 +49,11 @@ modelo_disc$prior
 modelo_disc$scaling
 plot(modelo_disc)
 library(klaR)
-partimat(Situacion ~ Edad + Hijos18, data=datos_empleo, method="lda", nplots.hor=3)
+partimat(Situacion ~ Edad + Hijos18, data=datos_empleo, method="lda", nplots.hor=1)
 
 # Predicción para datos observados
 
-predicciones_disc = predict(object = modelo_disc)
+predicciones_disc = predict(modelo_disc)
 predicciones_disc
 predicciones_disc$posterior
 
