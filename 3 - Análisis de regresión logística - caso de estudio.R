@@ -86,6 +86,7 @@ comparacion
 library(caret)
 confusionMatrix(comparacion$PRED, comparacion$OBS, positive = "1")
 
+library(pROC)
 rocobj = roc(incumplimiento, predicciones, auc = TRUE, ci = TRUE  )
 plot(rocobj)
 plot.roc(rocobj, 
