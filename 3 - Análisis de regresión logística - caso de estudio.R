@@ -81,13 +81,13 @@ TestRV$LogLik
 predicciones = predict(modelo_logistico2, type=c("response"))
 comparacion  = data.frame(OBS  = incumplimiento,
                           PRED = as.factor(round(predicciones,0))) 
-comparacion
+table(comparacion)
 
 library(caret)
 confusionMatrix(comparacion$PRED, comparacion$OBS, positive = "1")
 
 library(pROC)
-rocobj = roc(incumplimiento, predicciones, auc = TRUE, ci = TRUE  )
+rocobj = roc(predicciones, incumplimiento,  auc = TRUE, ci = TRUE  )
 plot(rocobj)
 plot.roc(rocobj, 
          print.thres = "best",
