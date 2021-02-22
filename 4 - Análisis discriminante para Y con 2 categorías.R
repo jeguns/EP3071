@@ -109,7 +109,6 @@ plot.roc(rocobj,
          col  = "darkblue", 
          grid = TRUE )
 
-
 # ---------------------------- #
 # Predicción para nuevos datos #
 # ---------------------------- #
