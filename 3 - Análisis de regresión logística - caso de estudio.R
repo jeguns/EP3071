@@ -22,7 +22,6 @@ plot(tipo,incumplimiento,ylab="incumplimiento",xlab="tipo de tarjeta")
 library(DataExplorer)
 plot_correlation(datos)
 
-
 # Primera propuesta
 
 modelo_logistico1 = glm(incumplimiento~sueldo+numeroi+minimo+tipo, family = "binomial")
@@ -38,11 +37,18 @@ TestRV
 modelo_logistico2 = glm(incumplimiento~sueldo+numeroi+minimo, family = "binomial")
 summary(modelo_logistico2)
 
-TestRV = lrtest(modelo_logistico2,modelo_logistico1)
-TestRV
+# ¿Esta segunda propuesta es mejor que un modelo nulo?
+# H0: Modelo propuesto 2 no ajusta, elegir nulo
+# H1: Modelo propuesto 2 sí ajusta, elegirlo
+(TestRV = lrtest(modelo_nulo,modelo_logistico2))
+# Pvalor < 0.05, rechaza H0, se elige modelo propuesto 2
 
-TestRV = lrtest(modelo_nulo,modelo_logistico2)
-TestRV
+# Entonces, esta segunda propuesta es mejor que un modelo nulo,
+# pero, ¿será mejor que la primera propuesta?
+# H0: Modelo propuesto 1 no ajusta, elegir modelo propuesto 2
+# H1: Modelo propuesto 1 sí ajusta, elegirlo
+(TestRV = lrtest(modelo_logistico2,modelo_logistico1))
+# Pvalor > 0.05, no se rechaza Ho, se elige modelo propuesto 2
 
 # Interpretación de coeficientes
 
@@ -73,7 +79,7 @@ modelo_logistico2 %>% coef() %>% exp()
 # - realizar un pago mínimo
 # Mientras que el sueldo es un factor que disminuye el incumplimiento
 
-# Pseudo R²
+# Pseudo R² = 1-logLik(modelo)/logLik(modelo.nulo)
 TestRV$LogLik
 1-TestRV$LogLik[2]/TestRV$LogLik[1]
 

@@ -31,6 +31,10 @@ coef(modelo_logistico)
 modelo_nulo = glm(Interes~1, data = datos, family = "binomial")
 library(lmtest)
 (TestRV = lrtest(modelo_nulo,modelo_logistico))
+
+# Si se trabaja al revés, se obtiene el mismo pvalor pero los modelos se 
+# invierten. Para evitar confusiones, se sugiere NO EJECUTARLO de la
+# siguiente manera:
 (TestRV = lrtest(modelo_logistico,modelo_nulo))
 
 # Equivalente solo para regresión logística simple
@@ -40,8 +44,13 @@ anova(modelo_logistico, test = "Chisq")
 # Pseudo - R² #
 # ----------- #
 
+(TestRV = lrtest(modelo_nulo,modelo_logistico))
+# LogLik del modelo 1 (modelo_nulo) = -44.416
+# LogLik del modelo 2 (modelo_logistico) = -32.3229
 TestRV$LogLik
-1-TestRV$LogLik[1]/TestRV$LogLik[2]
+
+# Pseudo R2 = 1- logLik(modelo_logistico)/logLik(modelo_nulo)
+1-TestRV$LogLik[2]/TestRV$LogLik[1]
 
 # ---------- #
 # Predicción #

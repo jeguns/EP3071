@@ -98,9 +98,9 @@ confusionMatrix(predicciones_disc$class, Situacion, positive = '1')
 
 library(pROC)
 
-apply(predicciones_disc$posterior, 1, max)
+probabilidades = apply(predicciones_disc$posterior, 1, max)
 
-rocobj = roc(Situacion, apply(predicciones_disc$posterior, 1, max), auc = TRUE, ci = TRUE  )
+rocobj = roc(Situacion, probabilidades, auc = TRUE, ci = TRUE  )
 plot.roc(rocobj, 
          print.thres = "best",
          print.auc   = TRUE,
