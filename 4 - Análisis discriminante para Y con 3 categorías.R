@@ -1,22 +1,34 @@
 
-# Lectura de datos
+# ---------------- #
+# Lectura de datos #
+# ---------------- #
 
 datos_empleo = read.csv2("empleo_discriminante2.csv")
 datos_empleo$Situacion = as.factor(datos_empleo$Situacion)
 datos_empleo
 attach(datos_empleo)
 
-# Análisis exploratorio inicial
+# ----------------------------- #
+# Análisis exploratorio inicial #
+# ----------------------------- #
 
 library(GGally)
-ggpairs(datos_empleo)
+summary(datos_empleo) # univariado
+ggpairs(datos_empleo) # bivariado
 hist(Edad)
 hist(Hijos18)
 hist(NumTrab)
+sd(Edad)
+3*(36.93 - 38.00)/10.90652 # -0.2943
+sd(Hijos18)
+3*(1.028 - 1)/0.8101469 # 0.1036
+sd(NumTrab)
+3*(3 - 3)/1.723783 # 0
 
-# Evaluación de supuestos
+# ----------------------- #
+# Evaluación de supuestos #
+# ----------------------- #
 
-attach(datos_empleo)
 library(MVN)
 mvn(datos_empleo[,-1], mvnTest = "royston")
 mvn(datos_empleo[,-1], mvnTest = "mardia")
@@ -37,13 +49,15 @@ datos_empleo %>%
   select(Edad,Hijos18,NumTrab) %>% 
   cov()
 
-library(biotools)
+library(biotools) # H0: Matrices de cov iguales # H1: Al menos una dif
 boxM(datos_empleo[,-1], grouping = datos_empleo[, 1])
 
-# Modelo
+# ------ #
+# Modelo #
+# ------ #
 
 library(MASS)
-modelo_disc2 = lda(formula = Situacion ~ Edad + Hijos18 + NumTrab, data = datos_empleo)
+modelo_disc2 = lda(formula = Situacion ~ Edad + Hijos18 + NumTrab)
 modelo_disc2
 modelo_disc2$prior
 modelo_disc2$scaling
