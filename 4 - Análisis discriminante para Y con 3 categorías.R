@@ -61,7 +61,7 @@ modelo_disc2 = lda(formula = Situacion ~ Edad + Hijos18 + NumTrab)
 modelo_disc2
 modelo_disc2$prior
 modelo_disc2$scaling
-plot(modelo_disc2)
+x11();plot(modelo_disc2)
 plot(modelo_disc2, dimen=1, type="b")
 
 library(klaR)
@@ -69,8 +69,17 @@ partimat(Situacion ~ Edad + Hijos18 + NumTrab, data=datos_empleo, method="lda", 
 
 # Predicción para datos observados
 
-predicciones_disc2 = predict(object = modelo_disc2)
+predicciones_disc2 = predict(modelo_disc2)
 predicciones_disc2
+
+# 9.615981e-08 = 0.000000096159 → 0 # muy poco probable de que sea
+# una persona ocupada
+# 1.573064e-02 = 0.01573 # es poco probable de que sea una persona
+# subocupada
+# 9.842693e-01 = 0.98427 # es muy probable de que sea una persona 
+# desocupada
+
+round(predicciones_disc2$posterior,3)
 
 comparacion  = data.frame(OBS  = Situacion,
                           PRED = predicciones_disc2$class,
