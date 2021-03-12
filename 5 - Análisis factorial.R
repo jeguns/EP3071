@@ -60,51 +60,94 @@ cortest.bartlett(cor(datos)) # incorrecto porque falta especificar n
 # Análisis factorial #
 # ------------------ #
 
-modelo = factanal(datos)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ # 
+# Modelo 1 - Sin rotación - 5 factores #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
 modelo1 = fa(datos,nfactors = 5, rotate = "none") 
+
+# Comunalidad y especificidad
 round(modelo1$communalities,2)
 round(modelo1$uniquenesses,2)
-
 round(modelo1$model,2)
 round(cor(datos),2)
 
+# Cargas
+modelo1
 modelo1$loadings
 print(modelo1$loadings,cutoff = 0.01)
 print(modelo1$loadings,cutoff = 0.90)
 print(modelo1$loadings,cutoff = 0.30) # sugerido para descartar las relaciones débiles
 
+# Índice de complejidad
+modelo1$complexity
+
+# Porcentaje de variabilidad explicado
+modelo1$Vaccounted
+
+# Correlación entre factores
 cor(modelo1$scores)
 corrplot(cor(modelo1$scores))
 modelo1$scores %>% cor %>% corrplot # esta línea es equivalente a la anterior
 
-modelo1$e.values
+# Número de factores
+modelo1$e.values 
 plot(modelo1$e.values, type = "b", pch = 18)
 sum(modelo1$e.values)
-# los eigenvalores son independientes del modelo
 
 modelo = fa(datos,nfactors = 11, rotate = "none") 
 modelo$Vaccounted
 
-modelo1 = fa(datos,nfactors = 4, rotate = "none") 
-modelo1$loadings
-modelo1$Vaccounted
-cor(modelo1$scores)
-corrplot(cor(modelo1$scores))
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ # 
+# Modelo 2 - Sin rotación - 4 factores #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-modelo2 = fa(datos,nfactors = 4, rotate = "varimax") 
+modelo2 = fa(datos,nfactors = 4, rotate = "none") 
 modelo2$loadings
 modelo2$Vaccounted
 cor(modelo2$scores)
 corrplot(cor(modelo2$scores))
 
-modelo3 = fa(datos,nfactors = 4, rotate = "oblimin") 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ # 
+# Modelo 3 - Rotación varimax - 4 factores #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+modelo3 = fa(datos,nfactors = 4, rotate = "varimax") 
 modelo3$loadings
 modelo3$Vaccounted
 cor(modelo3$scores)
 corrplot(cor(modelo3$scores))
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ # 
+# Modelo 4 - Rotación oblimin - 4 factores #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
+modelo4 = fa(datos,nfactors = 4, rotate = "oblimin") 
+modelo4$loadings
+modelo4$Vaccounted
+cor(modelo4$scores)
+corrplot(cor(modelo4$scores))
 
+# Ajuste del modelo
+
+modelo1$TLI
+modelo2$TLI
+modelo3$TLI
+modelo4$TLI
+
+modelo1$RMSEA
+modelo2$RMSEA
+modelo3$RMSEA
+modelo4$RMSEA
+
+modelo1$BIC
+modelo2$BIC
+modelo3$BIC
+modelo4$BIC
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ # 
+# Modelo con método de máxima verosimilitud #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 modelo1.mv = psych::fa(datos, nfactors = 5,rotate="none",fm="ml") 
 modelo1_mv = factanal(datos, factors = 5) # máxima verosimilitud # 
