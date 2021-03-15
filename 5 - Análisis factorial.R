@@ -9,12 +9,12 @@ datos = read_excel("MotivosCompra.xlsx")
 # --------------------- #
 # Análisis exploratorio #
 # --------------------- #
-
+# install.packages("skimr")
 summary(datos)
 library(skimr)
 skim(datos)
 cor(datos)
-
+round(cor(datos),2)
 library(Hmisc)
 library(dplyr)
 rcorr(as.matrix(datos))
@@ -29,17 +29,17 @@ datos %>% cor %>% corrplot(method="pie")
 datos %>% cor %>% corrplot(method="shade")
 datos %>% cor %>% corrplot(method="color")
 datos %>% cor %>% corrplot(method="number")
-datos %>% cor %>% corrplot(type="upper")
+datos %>% cor %>% corrplot(type="lower")
 datos %>% cor %>% corrplot(method="square",type="upper")
-datos %>% cor %>% corrplot(method="shade",type="lower")
-
+datos %>% cor %>% corrplot(method="number",type="lower")
+install.packages("PerformanceAnalytics")
 library(PerformanceAnalytics)
 chart.Correlation(datos)
 datos %>% chart.Correlation
 
 datos %>% cor %>% heatmap
 library(dichromat)
-datos %>% cor %>% heatmap(col = colorRampPalette(c("blue", "yellow", "red"))(20))
+datos %>% cor %>% heatmap(col = colorRampPalette(c("blue", "white", "red"))(20))
 
 # Más ejemplos: https://rstudio-pubs-static.s3.amazonaws.com/240657_5157ff98e8204c358b2118fa69162e18.html
 
