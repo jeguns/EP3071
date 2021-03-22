@@ -64,7 +64,7 @@ cortest.bartlett(cor(datos)) # incorrecto porque falta especificar n
 # Modelo 1 - Sin rotación - 5 factores #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-modelo1 = fa(datos,nfactors = 5, rotate = "none") 
+modelo1 = fa(datos, nfactors = 5, rotate = "none") 
 
 # Comunalidad y especificidad
 round(modelo1$communalities,2)
@@ -78,6 +78,9 @@ modelo1$loadings
 print(modelo1$loadings,cutoff = 0.01)
 print(modelo1$loadings,cutoff = 0.90)
 print(modelo1$loadings,cutoff = 0.30) # sugerido para descartar las relaciones débiles
+
+(-0.75)^2+0.00^2+(-0.04)^2+0.42^2+0.33^2
+(-0.01)^2+0.30^2+0.39^2+0.01^2+0.09^2
 
 # Índice de complejidad
 modelo1$complexity
