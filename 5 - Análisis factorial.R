@@ -108,6 +108,7 @@ modelo$Vaccounted
 modelo2 = fa(datos,nfactors = 4, rotate = "none") 
 modelo2$loadings
 modelo2$Vaccounted
+modelo2$scores
 cor(modelo2$scores)
 corrplot(cor(modelo2$scores))
 
@@ -133,10 +134,10 @@ corrplot(cor(modelo4$scores))
 
 # Ajuste del modelo
 
-modelo1$TLI
-modelo2$TLI
-modelo3$TLI
-modelo4$TLI
+modelo1$TLI # 5 factores, sin rotación
+modelo2$TLI # 4 factores, sin rotación
+modelo3$TLI # 4 factores, rotación varimax
+modelo4$TLI # 4 factores, rotación oblimin
 
 modelo1$RMSEA
 modelo2$RMSEA
