@@ -170,3 +170,15 @@ modelo2_mv = factanal(datos, factors = 4, rotation="varimax") # máxima verosimi
 
 modelo2.mv$loadings
 modelo2_mv$loadings
+
+# Máxima verosimilitud
+# F1 ~ X1, X2, X4, X9
+# F2 ~ X3, X5, X7
+# F3 ~ X8, X11
+# F4 ~ X10, X6
+
+# Mínimo residual
+# F1 ~ X1, X2, X4, X9
+# F2 ~ X3, X5, X7
+# F3 ~ X8, X11
+# F4 ~ X6, X10
