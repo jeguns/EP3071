@@ -182,3 +182,5 @@ modelo2_mv$loadings
 # F2 ~ X3, X5, X7
 # F3 ~ X8, X11
 # F4 ~ X6, X10
+
+# F1 

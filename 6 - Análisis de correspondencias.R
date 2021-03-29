@@ -6,7 +6,7 @@
 library(readxl)
 datos = read_xlsx('Bolsa.xlsx')
 datos$DISTRITO = factor(datos$DISTRITO)
-datos$BOLSA    = factor(datos$BOLSA,, ordered = T,
+datos$BOLSA    = factor(datos$BOLSA, ordered = T,
                         levels = c("NUNCA","A VECES","REGULARMENTE","SIEMPRE"))
 
 # ------------------ #
@@ -25,9 +25,11 @@ datos %>%
 
 tabla = table(datos)
 
+mosaicplot(tabla)
 mosaicplot(tabla, col=c("dodgerblue","gold","mediumorchid","red"), main="")
 
 library(gplots)
+balloonplot(tabla)
 balloonplot(t(tabla))
 
 # ------------------------------------------- #
