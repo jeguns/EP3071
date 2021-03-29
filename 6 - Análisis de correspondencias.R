@@ -14,6 +14,7 @@ datos$BOLSA    = factor(datos$BOLSA, ordered = T,
 # ------------------ #
 
 library(ggplot2)
+library(dplyr)
 datos %>% 
   count(BOLSA) %>% 
   ggplot(aes(x = BOLSA, y = n, label = n)) + 
