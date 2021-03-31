@@ -13,7 +13,16 @@ datos$BOLSA    = factor(datos$BOLSA, ordered = T,
 # Gráficos iniciales #
 # ------------------ #
 
-library(ggplot2)
+tabla = table(datos)
+
+mosaicplot(tabla)
+mosaicplot(tabla, col=c("dodgerblue","gold","mediumorchid","red"), main="")
+
+library(gplots)
+balloonplot(tabla)
+balloonplot(t(tabla))
+
+library(ggplot2) # paquete netamente para gráficas
 library(dplyr)
 datos %>% 
   count(BOLSA) %>% 
@@ -24,14 +33,27 @@ datos %>%
        y = "Número de personas") + 
   theme_minimal()
 
-tabla = table(datos)
+# Link para ver más colores
+# http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf?utm_source=twitterfeed&utm_medium=twitter
 
-mosaicplot(tabla)
-mosaicplot(tabla, col=c("dodgerblue","gold","mediumorchid","red"), main="")
+datos %>% 
+  count(BOLSA,DISTRITO) %>% 
+  ggplot(aes(x = BOLSA, y = n, label = n, fill = DISTRITO)) + 
+  geom_bar(stat = "identity") + 
+  geom_text(position = position_stack(vjust = 0.5)) + 
+  labs(x = "Frecuencia con la que pide bolsa",
+       y = "Número de personas") + 
+  theme_minimal()
 
-library(gplots)
-balloonplot(tabla)
-balloonplot(t(tabla))
+datos %>% 
+  count(BOLSA,DISTRITO) %>% 
+  ggplot(aes(x = DISTRITO, y = n, label = n, fill = BOLSA)) + 
+  geom_bar(stat = "identity") + 
+  geom_text(position = position_stack(vjust = 0.5)) + 
+  labs(x = "Distrito",
+       y = "Número de personas") + 
+  scale_fill_manual(values=c("firebrick","gold","dodgerblue","forestgreen"))+
+  theme_minimal()
 
 # ------------------------------------------- #
 # Viabilidad del análisis de correspondencias #
@@ -43,14 +65,14 @@ chisq.test(tabla)
 # Análisis de correspondencias #
 # ---------------------------- #
 
-library(FactoMineR)
-library(FactoClass)
+library(FactoMineR) # Para la función CA
+library(FactoClass) # Para la función plotct
 
 # Perfiles
 corresp  = CA(tabla, graph = FALSE)
 perfiles = plotct(tabla, 
-                  profiles    = "none",
-                  tables      = T)
+                  profiles    = "none", # no grafica los perfiles
+                  tables      = T) # muestra las tablas de perfiles
 
 perfiles$ctm
 
