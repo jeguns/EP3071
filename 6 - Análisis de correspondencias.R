@@ -87,7 +87,8 @@ corresp$call$marge.col*100
 corresp$call$marge.row*100
 
 # Número de dimensiones 
-(ndime = min(ncol(tabla),nrow(tabla))-1)
+(ndime = min(ncol(tabla),nrow(tabla))-1) # núm. máx. dimensiones
+library(factoextra)
 get_eigenvalue(corresp)
 fviz_screeplot(corresp, addlabels = TRUE)
 
@@ -96,17 +97,25 @@ fviz_screeplot(corresp, addlabels = TRUE)
 fviz_screeplot(corresp, addlabels = TRUE) + 
   geom_hline(yintercept = media, col = "red", size = 2)
 
-
 # Gráficos
 corresp$row$coord
 fviz_ca_row(corresp, repel = TRUE)
 
 corresp$col$coord
-fviz_ca_col(corresp)
+fviz_ca_col(corresp, repel = TRUE)
 
 fviz_ca_biplot(corresp)
 
 plot(corresp,map="symbioplot")
+
+# De lo más similar a lo más diferente
+# 1. Puntos cercanos (en el mismo cuadrante de preferencia)
+# implica mayor similitud
+# 2. Puntos en distintos cuadrantes (hacia el lado o 
+# hacia abajo), aquí comienzan las diferencias
+# 3. Diferencias más marcadas: cuadrantes 
+# diametralmente opuestos
+# Puntos cerca al origen no muestran patrones asociados
 
 # Asociación entre categoría y eje
 corresp$row$cos2
