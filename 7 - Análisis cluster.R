@@ -1,14 +1,12 @@
 
-
 # Carga de paquetes -------------------------------------------------------
 
-library(readxl)
-library(skimr)
-library(dplyr)
+library(readxl) # lectura de datos en excel
+library(skimr)  # resumen de datos
+library(dplyr)  # pipe ( %>% ) y manipulación de datos
 library(clustertend)
 library(psych)
-library(factoextra)
-
+library(factoextra) # para la función get_clust_tendency
 
 # Análisis exploratorio ---------------------------------------------------
 
@@ -20,15 +18,15 @@ datos1 = datos[,-1]
 datos1 = datos %>% select(-PAIS) # esta línea es equivalente a la anterior
 datos1
 
+datos1 %>% scale()
+datos1 %>% scale() %>% skim
 datos2 = datos1 %>% scale() %>% data.frame()
 rownames(datos2)= as.vector(as.matrix(datos[,1]))
 datos2
 
-
 # Viabilidad --------------------------------------------------------------
 
 get_clust_tendency(datos2, n = nrow(datos2)-1)
-
 
 # Distancias --------------------------------------------------------------
 
@@ -40,7 +38,6 @@ datos2 %>% dist(method="manhattan") -> Dist.Man
 
 datos2 %>% dist(method="minkowski") %>% round(2) 
 datos2 %>% dist(method="minkowski") -> Dist.Min
-
 
 # Agrupamientos -----------------------------------------------------------
 
