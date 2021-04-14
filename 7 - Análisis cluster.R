@@ -36,12 +36,12 @@ datos2 %>% dist() -> Dist.Euc
 datos2 %>% dist(method="manhattan") %>% round(2) 
 datos2 %>% dist(method="manhattan") -> Dist.Man
 
-datos2 %>% dist(method="minkowski") %>% round(2) 
-datos2 %>% dist(method="minkowski") -> Dist.Min
+datos2 %>% dist(method="minkowski",p=4) %>% round(2) 
+datos2 %>% dist(method="minkowski",p=4) -> Dist.Min
 
 # Agrupamientos -----------------------------------------------------------
 
-Dist.Euc %>% hclust() %>% plot()
+Dist.Euc %>% hclust(method="centroid") %>% plot()
 Dist.Euc %>% hclust(method="complete") %>% plot()
 Dist.Euc %>% hclust(method="average") %>% plot()
 Dist.Euc %>% hclust(method="centroid") %>% plot()
