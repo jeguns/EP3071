@@ -6,7 +6,7 @@ library(skimr)  # resumen de datos
 library(dplyr)  # pipe ( %>% ) y manipulación de datos
 library(clustertend)
 library(psych)
-library(factoextra) # para la función get_clust_tendency
+library(factoextra) # para la función get_clust_tendency, fviz_dend
 
 # Análisis exploratorio ---------------------------------------------------
 
@@ -42,11 +42,11 @@ datos2 %>% dist(method="minkowski",p=4) -> Dist.Min
 # Agrupamientos -----------------------------------------------------------
 
 Dist.Euc %>% hclust(method="centroid") %>% plot()
-Dist.Euc %>% hclust(method="complete") %>% plot()
-Dist.Euc %>% hclust(method="average") %>% plot()
-Dist.Euc %>% hclust(method="centroid") %>% plot()
+x11();Dist.Euc %>% hclust(method="single") %>% plot()
+x11();Dist.Euc %>% hclust(method="complete") %>% plot()
+x11();Dist.Euc %>% hclust(method="average") %>% plot()
 Dist.Euc %>% hclust(method="ward.D") %>% plot()
-Dist.Euc %>% hclust(method="ward.D") -> clustering
+Dist.Euc %>% hclust(method="ward.D") -> clustering ###### importante
 
 clustering$merge
 clustering$height
@@ -69,9 +69,9 @@ clustering %>% fviz_dend(k=4, k_colors = c("red","darkblue","gold","forestgreen"
 clustering %>% fviz_dend(k=4, 
                          k_colors = c("red","darkblue","gold","forestgreen"),
                          cex  = 1,
-                         ylab = "Altura", xlab = "Selección") +
-  geom_hline(yintercept = 3.5, linetype = "dotted")
-
+                         ylab = "Altura", 
+                         xlab = "Selección") +
+  geom_hline(yintercept = 7, linetype = "dotted")
 
 # Interpretación ----------------------------------------------------------
 
@@ -107,7 +107,6 @@ datos2 %>%
   labs(title = "Número óptimo de clusters",
        x = "Número de clusters",
        y = "Ancho medio de la silueta") -> grafico_silueta
-
 
 datos2 %>% 
   kmeans(centers = 2) -> resu_clust
