@@ -99,24 +99,25 @@ datos1 %>%
 
 
 # Análisis no jerárquico --------------------------------------------------
+# kmeans es una técnica no jerárquica
 
-datos2 %>% 
-  fviz_nbclust(FUNcluster = kmeans, 
+datos2 %>%  # datos2 es el conjunto de datos estandarizado
+  fviz_nbclust(FUNcluster = kmeans,  # paquete factoextra
                method     = "silhouette", 
                k.max      = 9) +
   labs(title = "Número óptimo de clusters",
        x = "Número de clusters",
-       y = "Ancho medio de la silueta") -> grafico_silueta
+       y = "Ancho medio de la silueta") 
 
 datos2 %>% 
-  kmeans(centers = 2) -> resu_clust
+  kmeans(centers = 4) -> resu_clust
 
 resu_clust$cluster
 resu_clust$centers
 resu_clust$totss
-resu_clust$withinss
+resu_clust$withinss # dentro de clusters
 resu_clust$tot.withinss
-resu_clust$betweenss
+resu_clust$betweenss # entre clusters
 resu_clust$size
 resu_clust$iter
 resu_clust$ifault 
